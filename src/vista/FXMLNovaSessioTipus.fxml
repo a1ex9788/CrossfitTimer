@@ -1,0 +1,303 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="581.0" prefWidth="490.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlador.FXMLNovaSessioTipusController">
+   <children>
+      <ImageView fx:id="fonsAS" fitHeight="581.0" fitWidth="490.0" opacity="0.15" pickOnBounds="true">
+         <image>
+            <Image url="@../imatges/fons.jpg" />
+         </image>
+      </ImageView>
+      <GridPane fx:id="gridPaneAS" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="581.0" prefWidth="490.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="20.0" stylesheets="@CSSNovaSessioTipus.css">
+               <children>
+                  <HBox prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <VBox prefHeight="92.0" prefWidth="361.0" spacing="25.0">
+                           <children>
+                              <HBox spacing="4.0">
+                                 <children>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Nom sessió">
+                                       <font>
+                                          <Font size="20.0" />
+                                       </font>
+                                    </Text>
+                                    <Text fx:id="error0" fill="#f50101" layoutX="10.0" layoutY="29.0" strokeType="OUTSIDE" strokeWidth="0.0" text="*">
+                                       <font>
+                                          <Font name="Arial" size="20.0" />
+                                       </font>
+                                    </Text>
+                                 </children>
+                              </HBox>
+                              <HBox spacing="4.0">
+                                 <children>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Nombre d'exercicis">
+                                       <font>
+                                          <Font size="20.0" />
+                                       </font>
+                                    </Text>
+                                    <Text fx:id="error1" fill="#f50101" strokeType="OUTSIDE" strokeWidth="0.0" text="*">
+                                       <font>
+                                          <Font name="Arial" size="20.0" />
+                                       </font>
+                                    </Text>
+                                 </children>
+                              </HBox>
+                              <HBox spacing="4.0">
+                                 <children>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Nombre de circuits">
+                                       <font>
+                                          <Font size="20.0" />
+                                       </font>
+                                    </Text>
+                                    <Text fx:id="error2" fill="#f50101" strokeType="OUTSIDE" strokeWidth="0.0" text="*">
+                                       <font>
+                                          <Font name="Arial" size="20.0" />
+                                       </font>
+                                    </Text>
+                                 </children>
+                              </HBox>
+                           </children>
+                           <padding>
+                              <Insets top="6.0" />
+                           </padding>
+                        </VBox>
+                        <VBox alignment="CENTER" prefHeight="135.0" prefWidth="361.0" spacing="10.0">
+                           <children>
+                              <VBox alignment="CENTER_RIGHT">
+                                 <children>
+                                    <TextField fx:id="nom" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="37.0" prefWidth="136.0">
+                                       <font>
+                                          <Font name="Arial" size="16.0" />
+                                       </font>
+                                    </TextField>
+                                 </children>
+                                 <padding>
+                                    <Insets left="45.0" />
+                                 </padding>
+                              </VBox>
+                              <VBox alignment="CENTER_RIGHT" prefHeight="87.0" prefWidth="191.0" spacing="10.0">
+                                 <children>
+                                    <TextField fx:id="nombreExercici" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="38.0" prefWidth="48.0">
+                                       <font>
+                                          <Font name="Arial" size="16.0" />
+                                       </font>
+                                    </TextField>
+                                    <TextField fx:id="nombreCircuit" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="38.0" prefWidth="48.0">
+                                       <font>
+                                          <Font name="Arial" size="16.0" />
+                                       </font>
+                                    </TextField>
+                                 </children>
+                                 <padding>
+                                    <Insets left="90.0" />
+                                 </padding>
+                              </VBox>
+                           </children>
+                        </VBox>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="209.0" prefWidth="380.0" spacing="20.0">
+                     <children>
+                        <VBox prefHeight="209.0" prefWidth="227.0" spacing="22.0">
+                           <children>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0">
+                                 <font>
+                                    <Font size="5.0" />
+                                 </font>
+                              </Text>
+                              <HBox spacing="4.0">
+                                 <children>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Temps d'escalfament" wrappingWidth="186.0849609375">
+                                       <font>
+                                          <Font size="20.0" />
+                                       </font>
+                                    </Text>
+                                    <Text fx:id="error3" fill="#f50101" strokeType="OUTSIDE" strokeWidth="0.0" text="*">
+                                       <font>
+                                          <Font name="Arial" size="20.0" />
+                                       </font>
+                                    </Text>
+                                 </children>
+                              </HBox>
+                              <HBox spacing="4.0">
+                                 <children>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Temps d'exercici">
+                                       <font>
+                                          <Font size="20.0" />
+                                       </font>
+                                    </Text>
+                                    <Text fx:id="error4" fill="#f50101" strokeType="OUTSIDE" strokeWidth="0.0" text="*">
+                                       <font>
+                                          <Font name="Arial" size="20.0" />
+                                       </font>
+                                    </Text>
+                                 </children>
+                              </HBox>
+                              <HBox spacing="4.0">
+                                 <children>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Temps de descans d'exercici">
+                                       <font>
+                                          <Font size="20.0" />
+                                       </font>
+                                    </Text>
+                                    <Text fx:id="error5" fill="#f50101" strokeType="OUTSIDE" strokeWidth="0.0" text="*">
+                                       <font>
+                                          <Font name="Arial" size="20.0" />
+                                       </font>
+                                    </Text>
+                                 </children>
+                              </HBox>
+                              <HBox spacing="4.0">
+                                 <children>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Temps de descans de circuit">
+                                       <font>
+                                          <Font size="20.0" />
+                                       </font>
+                                    </Text>
+                                    <Text fx:id="error6" fill="#f50101" strokeType="OUTSIDE" strokeWidth="0.0" text="*">
+                                       <font>
+                                          <Font name="Arial" size="20.0" />
+                                       </font>
+                                    </Text>
+                                 </children>
+                              </HBox>
+                           </children>
+                        </VBox>
+                        <GridPane alignment="BOTTOM_RIGHT">
+                          <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="10.0" prefWidth="100.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="10.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="10.0" prefWidth="100.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                              <RowConstraints maxHeight="43.0" minHeight="10.0" prefHeight="16.0" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="86.0" minHeight="10.0" prefHeight="40.0" valignment="CENTER" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                           <children>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Segons" wrappingWidth="49.630859375" GridPane.columnIndex="2">
+                                 <font>
+                                    <Font size="15.0" />
+                                 </font>
+                              </Text>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Minuts" textAlignment="CENTER" wrappingWidth="50.421875">
+                                 <font>
+                                    <Font size="15.0" />
+                                 </font>
+                              </Text>
+                              <TextField fx:id="minEscalfament" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="38.0" prefWidth="48.0" GridPane.rowIndex="1">
+                                 <font>
+                                    <Font name="Arial" size="16.0" />
+                                 </font>
+                              </TextField>
+                              <TextField fx:id="segEscalfament" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="38.0" prefWidth="48.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                                 <font>
+                                    <Font name="Arial" size="16.0" />
+                                 </font>
+                              </TextField>
+                              <TextField fx:id="minExercici" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="38.0" prefWidth="48.0" GridPane.rowIndex="2">
+                                 <font>
+                                    <Font name="Arial" size="16.0" />
+                                 </font>
+                              </TextField>
+                              <TextField fx:id="segExercici" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="38.0" prefWidth="48.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                                 <font>
+                                    <Font name="Arial" size="16.0" />
+                                 </font>
+                              </TextField>
+                              <TextField fx:id="minDescansExercici" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="38.0" prefWidth="48.0" GridPane.rowIndex="3">
+                                 <font>
+                                    <Font name="Arial" size="16.0" />
+                                 </font>
+                              </TextField>
+                              <TextField fx:id="segDescansExercici" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="38.0" prefWidth="48.0" GridPane.columnIndex="2" GridPane.rowIndex="3">
+                                 <font>
+                                    <Font name="Arial" size="16.0" />
+                                 </font>
+                              </TextField>
+                              <TextField fx:id="minDescansCircuit" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="38.0" prefWidth="48.0" GridPane.rowIndex="4">
+                                 <font>
+                                    <Font name="Arial" size="16.0" />
+                                 </font>
+                              </TextField>
+                              <TextField fx:id="segDescansCircuit" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="38.0" prefWidth="48.0" GridPane.columnIndex="2" GridPane.rowIndex="4">
+                                 <font>
+                                    <Font name="Arial" size="16.0" />
+                                 </font>
+                              </TextField>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text=":" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                                 <font>
+                                    <Font size="25.0" />
+                                 </font>
+                              </Text>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text=":" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+                                 <font>
+                                    <Font size="25.0" />
+                                 </font>
+                              </Text>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text=":" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER">
+                                 <font>
+                                    <Font size="25.0" />
+                                 </font>
+                              </Text>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text=":" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER">
+                                 <font>
+                                    <Font size="25.0" />
+                                 </font>
+                              </Text>
+                           </children>
+                        </GridPane>
+                     </children>
+                  </HBox>
+                  <Text fx:id="textError" fill="RED" strokeType="OUTSIDE" strokeWidth="0.0" text="Falten camps per omplir (*)" wrappingWidth="389.34375">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Text>
+                  <HBox alignment="BOTTOM_RIGHT" prefHeight="75.0" prefWidth="381.0" spacing="20.0">
+                     <children>
+                        <Button mnemonicParsing="false" onAction="#cancelar" text="Cancel·lar">
+                           <font>
+                              <Font size="20.0" />
+                           </font></Button>
+                        <Button mnemonicParsing="false" onAction="#guardarNovaSessio" text="Guardar">
+                           <font>
+                              <Font size="20.0" />
+                           </font></Button>
+                     </children>
+                  </HBox>
+               </children>
+               <GridPane.margin>
+                  <Insets />
+               </GridPane.margin>
+            </VBox>
+         </children>
+         <padding>
+            <Insets bottom="50.0" left="50.0" right="50.0" top="50.0" />
+         </padding>
+      </GridPane>
+   </children>
+</StackPane>
