@@ -5,6 +5,8 @@ build/
 #netbeans specific
 core
 nbproject/*
+!nbproject/build-impl.xml
+!nbproject/jfx-impl.xml
 !nbproject/project.properties
 !nbproject/project.xml
 
