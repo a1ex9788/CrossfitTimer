@@ -10,6 +10,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableColumn?>
@@ -139,19 +140,24 @@
                         </GridPane>
                         <StackPane GridPane.columnIndex="2">
                            <children>
-                              <Rectangle arcHeight="50.0" arcWidth="50.0" fill="#ffffffb2" height="110.0" stroke="BLACK" strokeType="INSIDE" width="277.0" />
-                              <VBox alignment="CENTER">
+                              <Rectangle arcHeight="50.0" arcWidth="50.0" fill="#ffffffb2" height="134.0" stroke="BLACK" strokeType="INSIDE" width="308.0" />
+                              <Text fx:id="paneDescans" fill="#00ff04" strokeType="OUTSIDE" strokeWidth="0.0" text="DESCANS" visible="false">
+                                 <font>
+                                    <Font name="Arial" size="60.0" />
+                                 </font>
+                              </Text>
+                              <VBox fx:id="paneNExer" alignment="CENTER">
                                  <children>
                                     <HBox alignment="CENTER" spacing="20.0">
                                        <children>
                                           <Label text="Exercici">
                                              <font>
-                                                <Font size="35.0" />
+                                                <Font size="40.0" />
                                              </font>
                                           </Label>
                                           <Label fx:id="nExercici" layoutX="292.0" layoutY="10.0" text="0/0">
                                              <font>
-                                                <Font size="35.0" />
+                                                <Font size="40.0" />
                                              </font>
                                           </Label>
                                        </children>
@@ -160,12 +166,12 @@
                                        <children>
                                           <Label text="Circuit">
                                              <font>
-                                                <Font size="35.0" />
+                                                <Font size="40.0" />
                                              </font>
                                           </Label>
                                           <Label fx:id="nCircuit" layoutX="292.0" layoutY="10.0" text="0/0">
                                              <font>
-                                                <Font size="35.0" />
+                                                <Font size="40.0" />
                                              </font>
                                           </Label>
                                        </children>
@@ -628,48 +634,53 @@
     </Tab>
     <Tab fx:id="tab3">
          <content>
-            <GridPane fx:id="gridAuxGrafiques">
-               <columnConstraints>
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
-               </columnConstraints>
-               <rowConstraints>
-                  <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-               </rowConstraints>
-               <children>
-                  <ImageView fx:id="auxFonsGrafiques" fitHeight="708.0" fitWidth="1280.0" pickOnBounds="true">
-                     <image>
-                        <Image url="@../imatges/fons.jpg" />
-                     </image></ImageView>
-                  <HBox alignment="CENTER" spacing="75.0">
+            <SplitPane dividerPositions="0.51328125">
+               <items>
+                  <GridPane fx:id="gridAuxGrafiques">
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
                      <children>
-                        <VBox alignment="CENTER_RIGHT" spacing="25.0">
+                        <ImageView fx:id="auxFonsGrafiques" fitHeight="708.0" fitWidth="1280.0" pickOnBounds="true">
+                           <image>
+                              <Image url="@../imatges/fons2.jpg" />
+                           </image>
+                        </ImageView>
+                        <HBox alignment="CENTER" spacing="75.0">
                            <children>
-                              <ComboBox fx:id="buscadorGrup" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="30.0" prefWidth="150.0" promptText="Selecciona grup" />
-                              <TableView fx:id="taulaGrafiques" prefHeight="9999.0" prefWidth="450.0" stylesheets="@CSSTaules.css">
-                                <columns>
-                                  <TableColumn fx:id="dataSessio" prefWidth="111.0" text="Data" />
-                                  <TableColumn fx:id="duracioSessio" prefWidth="115.0" text="Duració" />
-                                    <TableColumn fx:id="sessioTipusSessio" prefWidth="114.0" text="Sessió tipus" />
-                                    <TableColumn fx:id="checkBoxSessio" prefWidth="145.0" />
-                                </columns>
-                              </TableView>
+                              <VBox alignment="CENTER_RIGHT" spacing="25.0">
+                                 <children>
+                                    <ComboBox fx:id="buscadorGrup" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="30.0" prefWidth="150.0" promptText="Selecciona grup" />
+                                    <TableView fx:id="taulaGrafiques" prefHeight="9999.0" prefWidth="450.0" stylesheets="@CSSTaules.css">
+                                      <columns>
+                                        <TableColumn fx:id="dataSessio" prefWidth="111.0" text="Data" />
+                                        <TableColumn fx:id="duracioSessio" prefWidth="115.0" text="Duració" />
+                                          <TableColumn fx:id="sessioTipusSessio" prefWidth="114.0" text="Sessió tipus" />
+                                          <TableColumn fx:id="checkBoxSessio" prefWidth="145.0" />
+                                      </columns>
+                                    </TableView>
+                                 </children>
+                              </VBox>
                            </children>
-                        </VBox>
-                        <LineChart fx:id="grafica" animated="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
-                          <xAxis>
-                            <CategoryAxis fx:id="eixX" side="BOTTOM" />
-                          </xAxis>
-                          <yAxis>
-                            <NumberAxis fx:id="eixY" side="LEFT" />
-                          </yAxis>
-                        </LineChart>
+                           <padding>
+                              <Insets bottom="100.0" left="100.0" right="100.0" top="100.0" />
+                           </padding>
+                        </HBox>
                      </children>
-                     <padding>
-                        <Insets bottom="100.0" left="100.0" right="100.0" top="100.0" />
-                     </padding>
-                  </HBox>
-               </children>
-            </GridPane>
+                  </GridPane>
+                  <LineChart fx:id="grafica" animated="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
+                    <xAxis>
+                      <CategoryAxis fx:id="eixX" side="BOTTOM" />
+                    </xAxis>
+                    <yAxis>
+                      <NumberAxis fx:id="eixY" side="LEFT" />
+                    </yAxis>
+                  </LineChart>
+               </items>
+            </SplitPane>
          </content>
          <graphic>
             <ImageView fitHeight="72.0" fitWidth="85.0" pickOnBounds="true" preserveRatio="true">

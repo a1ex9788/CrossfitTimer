@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
@@ -57,6 +58,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
+import javafx.scene.media.AudioClip;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
@@ -195,6 +197,10 @@ public class FXMLTemporitzadorCrossfitController implements Initializable {
     private Tab tab3;
     @FXML
     private Button eixirButton;
+    @FXML
+    private Text paneDescans;
+    @FXML
+    private VBox paneNExer;
     
     
     private ObservableList<Grupo> grups;
@@ -202,7 +208,6 @@ public class FXMLTemporitzadorCrossfitController implements Initializable {
     private ObservableList<SesionTipo> sesionsTipus;
     private AccesoBD baseDeDades;
     private Gym gimnas;
-    private XYChart.Series<String, Number> serie;
     
     private Sesion sesionActual;
     private Grupo grupActual;
@@ -218,8 +223,14 @@ public class FXMLTemporitzadorCrossfitController implements Initializable {
     private boolean primeraVegada = true;
     private boolean roig = true; //Animació roig/blanc
     
+    private final BooleanProperty enDescans = new SimpleBooleanProperty(false);
     
+    private XYChart.Series<String, Number> serieTTreball = new XYChart.Series<>();
+    private XYChart.Series<String, Number> serieTDescans = new XYChart.Series<>();
+    private XYChart.Series<String, Number> serieTTotal = new XYChart.Series<>();
     
+    AudioClip sorollFiFase = new AudioClip((new File("src/sorolls/pitidet.mp3")).toURI().toString());
+    AudioClip sorollFiSessio = new AudioClip((new File("src/sorolls/aplausos.mp3")).toURI().toString());
 
     /**
      * Initializes the controller class.
@@ -235,6 +246,16 @@ public class FXMLTemporitzadorCrossfitController implements Initializable {
         //CRONO
         grupElegit.converterProperty().bind(buscadorGrup.converterProperty());
         grupElegit.itemsProperty().bind(buscadorGrup.itemsProperty());
+        grupElegit.valueProperty().addListener(a -> {
+            if (grupElegit.getValue() != null) {
+                ArrayList<Sesion> sesions = grupElegit.getValue().getSesiones();
+                if (sesions.size() > 0) {
+                    tipusDeSessio.setValue(null);
+                    tipusDeSessio.setValue("Aprofitar sessió tipus");
+                    llistaSessionsTipus.getSelectionModel().select(0);
+                }
+            }
+        });
         
         tipusDeSessio.getItems().addAll("Aprofitar sessió tipus", "Crear nova sessió tipus");
         
@@ -242,27 +263,28 @@ public class FXMLTemporitzadorCrossfitController implements Initializable {
         llistaSessionsTipus.setCellFactory(a -> new CellAux());
         
         tipusDeSessio.valueProperty().addListener(a -> {
-            if(tipusDeSessio.getValue().equals("Aprofitar sessió tipus")) {
-                textError.setVisible(false);
-                llistaSessionsTipus.setDisable(false);
-                llistaSessionsTipus.setVisible(true);
-                creacioNovaSessioTipus.setVisible(false);
-            }
-            else {
-                textError.setVisible(false);
-                error0.setVisible(false);
-                error1.setVisible(false);
-                error2.setVisible(false);
-                error3.setVisible(false);
-                error4.setVisible(false);
-                error5.setVisible(false);
-                error6.setVisible(false);
-                
-                creacioNovaSessioTipus.setVisible(true);
-                llistaSessionsTipus.setVisible(false);
+            if (tipusDeSessio.getValue() != null) {
+                if(tipusDeSessio.getValue().equals("Aprofitar sessió tipus")) {
+                    textError.setVisible(false);
+                    llistaSessionsTipus.setDisable(false);
+                    llistaSessionsTipus.setVisible(true);
+                    creacioNovaSessioTipus.setVisible(false);
+                }
+                else {
+                    textError.setVisible(false);
+                    error0.setVisible(false);
+                    error1.setVisible(false);
+                    error2.setVisible(false);
+                    error3.setVisible(false);
+                    error4.setVisible(false);
+                    error5.setVisible(false);
+                    error6.setVisible(false);
+
+                    creacioNovaSessioTipus.setVisible(true);
+                    llistaSessionsTipus.setVisible(false);
+                }
             }
         });
-        
         //SERVICE
         tWork.textProperty().bind(minISeg);
         tTranscorregut.textProperty().bind(tTrans);
@@ -272,7 +294,10 @@ public class FXMLTemporitzadorCrossfitController implements Initializable {
         
         tWork.textProperty().addListener(a->{
             if (pintarDeRoig(tWork.getText())) {
-                if (roig) { tWork.setTextFill(Paint.valueOf("Red")); }
+                if (roig) {
+                    tWork.setTextFill(Paint.valueOf("Red"));
+                    sorollFiFase.play();
+                }
                 else { tWork.setTextFill(Paint.valueOf("White")); }
                 roig = !roig;
             } else {
@@ -284,7 +309,7 @@ public class FXMLTemporitzadorCrossfitController implements Initializable {
         tascaTempsTrans = new MeuaTasca();
         tascaTempsTrans.setStringProperty(tTrans);
         service = new MeuServei();
-        service.setStringPropertiesAux(minISeg, tTrans, tRest, numEx, numCir, tascaTempsTrans, fiSessio);
+        service.setStringPropertiesAux(minISeg, tTrans, tRest, numEx, numCir, tascaTempsTrans, fiSessio, enDescans);
         
         
         fiSessio.addListener(a -> {
@@ -298,6 +323,18 @@ public class FXMLTemporitzadorCrossfitController implements Initializable {
                 if (s3.charAt(0) == '0') { s3 = s3.substring(1); }
                 tDuracioSessio.setText(s1 + s2 + s3);
                 paneFiSessio.setVisible(true);
+                
+                sorollFiSessio.play();
+            }
+        });
+        
+        enDescans.addListener(a -> {
+            if (enDescans.getValue()) {
+                paneDescans.setVisible(true);
+                paneNExer.setVisible(false);
+            } else {
+                paneDescans.setVisible(false);
+                paneNExer.setVisible(true);
             }
         });
         
@@ -421,6 +458,9 @@ public class FXMLTemporitzadorCrossfitController implements Initializable {
             }
         });
         buscadorGrup.valueProperty().addListener(a -> {
+            serieTTreball.getData().clear();
+            serieTDescans.getData().clear();
+            serieTTotal.getData().clear();
             Grupo g = buscadorGrup.getValue();
             if (g != null) {
                 sesions.clear();
@@ -439,40 +479,42 @@ public class FXMLTemporitzadorCrossfitController implements Initializable {
         dataSessio.setCellValueFactory(a -> new SimpleStringProperty(a.getValue().getFecha().getDayOfMonth()
                 + "/" + a.getValue().getFecha().getMonthValue()
                 + "/" + a.getValue().getFecha().getYear()));
-        duracioSessio.setCellValueFactory(a -> new SimpleStringProperty(a.getValue().getDuracion().getSeconds()/3600 + "h "
-                + a.getValue().getDuracion().getSeconds()/60 + "m " + a.getValue().getDuracion().getSeconds() + "s"));
+        duracioSessio.setCellValueFactory(a -> new SimpleStringProperty(a.getValue().getDuracion().getSeconds()/60 + "' " + a.getValue().getDuracion().getSeconds()%60 + "\""));
         sessioTipusSessio.setCellValueFactory(a -> new SimpleStringProperty(a.getValue().getTipo().getCodigo()));
         
+        
+        serieTTreball.setName("Treball total");
+        serieTDescans.setName("Descans total");
+        serieTTotal.setName("Temps real");  
+        grafica.getData().addAll(serieTTreball, serieTDescans, serieTTotal);
         checkBoxSessio.setCellFactory(column -> new CheckBoxTableCell<>());
         checkBoxSessio.setCellValueFactory(cellData -> {
             SesionM cellValue = cellData.getValue();
             BooleanProperty property = cellValue.getSeleccionat();
-
+            
             // Add listener to handler change
             property.addListener((observable, oldValue, newValue) -> {
                 cellValue.setSeleccionat(newValue);
-                XYChart.Series<String, Number> serieL = new XYChart.Series<>();
-                //LocalDateTime aux = taulaGrafiques.getItems().get(taulaGrafiques.getSelectionModel().getFocusedIndex()).getFecha();
-                LocalDateTime aux = cellValue.getFecha();
-                String nom = aux.getDayOfMonth() + "/" + aux.getMonthValue() + "/" + aux.getYear() + " - " + cellValue.getTipo().getCodigo();
-                serieL.setName(nom);
+                LocalDateTime dia = cellValue.getFecha();
+                String nom = dia.getDayOfMonth() + "/" + dia.getMonthValue() + "/" + dia.getYear() + " - " + cellValue.getTipo().getCodigo();
                 if (newValue) {
-                    if (cellValue.getSeleccionat().getValue()) {
-                        //Creem new XYChart i l'afegim al lineChart
-                        for (int i = 0; i < 10; i++) {
-                            serieL.getData().add(new XYChart.Data<>(i + "-" + (i + 1), i));
-                        }
-                        //Si no hi ha cap en el mateix nom -> solucionat error apareixen més d'una
-                        boolean aux2 = true;
-                        for (int i = 0; i < grafica.getData().size(); i++) {
-                            if (grafica.getData().get(i).getName().equals(nom)) { aux2 = false; break; }
-                        }
-                        if (aux2) grafica.getData().add(serieL);
-                    }
+                    SesionTipo st = cellValue.getTipo();
+                    int tExercici = st.getT_ejercicio() * st.getNum_ejercicios() * st.getNum_circuitos();
+                    int tDescans = (st.getNum_ejercicios() - 1) * st.getD_ejercicio() + (st.getNum_circuitos() - 1) * st.getD_circuito();
+                    long tReal = cellValue.getDuracion().getSeconds(); //en minuts
+                    
+                    
+                    serieTTreball.getData().add(new XYChart.Data<>(nom, tExercici/60.0));
+                    
+                    serieTDescans.getData().add(new XYChart.Data<>(nom, tDescans/60.0));
+                      
+                    serieTTotal.getData().add(new XYChart.Data<>(nom, tReal/60.0));
                 } else {
-                    for(int i = 0; i < grafica.getData().size(); i++) {
-                        if (grafica.getData().get(i).getName().equals(nom)) {
-                            grafica.getData().remove(i);
+                    for (int i = 0; i < serieTTreball.getData().size(); i++) {
+                        if (serieTTreball.getData().get(i).getXValue().equals(nom)) { 
+                            serieTTreball.getData().remove(i);
+                            serieTDescans.getData().remove(i);
+                            serieTTotal.getData().remove(i);
                             break;
                         }
                     }
@@ -520,8 +562,8 @@ public class FXMLTemporitzadorCrossfitController implements Initializable {
         gridAuxCrono.heightProperty().addListener(a -> {
             if (gridAuxCrono.getHeight() != 0) {
                 tWork.setFont(Font.font(gridAuxCrono.getHeight()*3/5));
-                tTranscorregut.setFont(Font.font(gridAuxCrono.getHeight()/10));
-                tRestant.setFont(Font.font(gridAuxCrono.getHeight()/10));
+                tTranscorregut.setFont(Font.font(gridAuxCrono.getHeight()/9));
+                tRestant.setFont(Font.font(gridAuxCrono.getHeight()/9));
             }
         });
         
@@ -810,6 +852,8 @@ public class FXMLTemporitzadorCrossfitController implements Initializable {
             sesionActual.setTipo(st);
         }
         
+        enDescans.setValue(false);
+        
         int tCircuit = (st.getD_ejercicio() + st.getT_ejercicio()) * (st.getNum_ejercicios() - 1)
                 + st.getT_ejercicio();
         int tTotal = st.getT_calentamiento() + (st.getD_circuito() + tCircuit) * (st.getNum_circuitos() - 1)
@@ -896,7 +940,7 @@ public class FXMLTemporitzadorCrossfitController implements Initializable {
             tascaTempsTrans = new MeuaTasca();
             tascaTempsTrans.setStringProperty(tTrans);
             service = new MeuServei();
-            service.setStringPropertiesAux(minISeg, tTrans, tRest, numEx, numCir, tascaTempsTrans, fiSessio);
+            service.setStringPropertiesAux(minISeg, tTrans, tRest, numEx, numCir, tascaTempsTrans, fiSessio, enDescans);
             iniciaSessio(sesionActual.getTipo(), true);
             fiSessio.setValue(false);
             tWork.setTextFill(Paint.valueOf("White"));
@@ -916,7 +960,9 @@ public class FXMLTemporitzadorCrossfitController implements Initializable {
         if (buscadorGrup.getValue() == grupActual) {
             buscadorGrup.setValue(null);
             buscadorGrup.setValue(grupActual);
-            grafica.getData().clear();
+            serieTTreball.getData().clear();
+            serieTDescans.getData().clear();
+            serieTTotal.getData().clear();
         }
         
         paneFiSessio.setVisible(false);
@@ -935,13 +981,23 @@ public class FXMLTemporitzadorCrossfitController implements Initializable {
         tascaTempsTrans = new MeuaTasca();
         tascaTempsTrans.setStringProperty(tTrans);
         service = new MeuServei();
-        service.setStringPropertiesAux(minISeg, tTrans, tRest, numEx, numCir, tascaTempsTrans, fiSessio);
+        service.setStringPropertiesAux(minISeg, tTrans, tRest, numEx, numCir, tascaTempsTrans, fiSessio, enDescans);
         iniciaSessio(sesionActual.getTipo(), false);
         fiSessio.setValue(false);
         tWork.setTextFill(Paint.valueOf("White"));
         
         tab2.setDisable(false);
         tab3.setDisable(false);
+        
+        sesionsTipus.remove(sesionActual.getTipo());
+        sesionsTipus.add(0, sesionActual.getTipo());
+        llistaSessionsTipus.getSelectionModel().select(0);
+        
+        grupElegit.setValue(null);
+        tipusDeSessio.setValue(null);
+        llistaSessionsTipus.setDisable(true);
+        
+        sorollFiSessio.stop();
     }
 
     @FXML
@@ -970,7 +1026,7 @@ public class FXMLTemporitzadorCrossfitController implements Initializable {
             tascaTempsTrans = new MeuaTasca();
             tascaTempsTrans.setStringProperty(tTrans);
             service = new MeuServei();
-            service.setStringPropertiesAux(minISeg, tTrans, tRest, numEx, numCir, tascaTempsTrans, fiSessio);
+            service.setStringPropertiesAux(minISeg, tTrans, tRest, numEx, numCir, tascaTempsTrans, fiSessio, enDescans);
             iniciaSessio(sesionActual.getTipo(), false);
             fiSessio.setValue(false);
             tWork.setTextFill(Paint.valueOf("White"));
@@ -1075,6 +1131,8 @@ class MeuServei extends Service<Void> {
     MeuaTasca tasca;
     BooleanProperty fiSessio;
     
+    BooleanProperty descans;
+    
     private Duration d;
     private boolean minISegPara = false;
             
@@ -1107,6 +1165,8 @@ class MeuServei extends Service<Void> {
                     
                     if(ripSesio){
                         //Acava la sessió
+                        descans.setValue(false);
+                        
                         long tDuracio = tasca.getDuracio() + 1000;
                         tasca.cancel();
                         
@@ -1173,20 +1233,24 @@ class MeuServei extends Service<Void> {
                             
                             if(comptador > sesioActual.getTipo().getNum_ejercicios() - 1){
                                 queToca = 3;
+                                descans.setValue(true);
                                 comptador = 0;
                                 comptador2++;
                             }else {
                                 switch (queToca) {
                                     case 0:
                                         queToca = 1;
+                                        descans.setValue(false);
                                         comptador++;
                                         comptador2++;
                                         break;
                                     case 1:
                                         queToca = 2;
+                                        descans.setValue(true);
                                         break;
                                     default:
                                         queToca = 1;
+                                        descans.setValue(false);
                                         comptador++;
                                         break;
                                 }
@@ -1238,7 +1302,8 @@ class MeuServei extends Service<Void> {
         estaParat = b;
     }
     
-    public void setStringPropertiesAux(StringProperty t1, StringProperty t2, StringProperty t3, StringProperty t4, StringProperty t5, MeuaTasca t, BooleanProperty b) {
+    public void setStringPropertiesAux(StringProperty t1, StringProperty t2, StringProperty t3,
+            StringProperty t4, StringProperty t5, MeuaTasca t, BooleanProperty b, BooleanProperty des) {
         minISeg = t1;
         tTrans = t2;
         tRest = t3;
@@ -1246,6 +1311,7 @@ class MeuServei extends Service<Void> {
         nCircuit = t5;
         tasca = t;
         fiSessio = b;
+        descans = des;
     }
     
     public Duration getDuracio() {
